@@ -10,14 +10,14 @@ export default function Home({ lessions }) {
   // console.log(supabase.auth.user())
  
   return (
-    <div className="mx-auto p-8 w-full max-w-3xl  min-h-screen bg-gray-300">
-      <nav> 
+    <div className="mx-auto p-8 w-full max-w-3xl bg-gray-100">
+      {/* <nav> 
         <div className='flex flex-row font-bold text-xl gap-5 top-0 right-50'>
         <Link href={'/login'}>Login</Link>
         <Link href={'/logout'}>Logout</Link>
         </div>
 
-      </nav>
+      </nav> */}
       {lessions.map((lession) => (
         <Link href={`/${lession.id}`} key={lession.id}>
           <a className="mb-4 flex h-40 rounded p-8 text-xl shadow-xl">
