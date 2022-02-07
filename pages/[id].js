@@ -1,16 +1,35 @@
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { supabase } from './utils/supabase';
+import Video from 'react-player'
 
 const Pages = ({ lession }) => {
+  const [videoUrl, setVideoUrl] = useState();
+
+  const getPremiumContent = async () => {
+    const { data } = await supabase.from("premium_content").select("video_url").eq("id", lession.id).single();
+    setVideoUrl(data?.video_url);
+
+  }
+
+  // mounting
+  useEffect(() => { 
+    getPremiumContent()
+  },[])
+
+
   console.log(lession)
   return (
-      <div className="mx-auto w-full max-w-3xl px-8 py-16">
-          <Link href="/">
-          Home page
+      <div className="mx-auto bg-blue-400 rounded-md w-full max-w-3xl px-8 py-16">
+      <Link href="/" >
+        <p className='bg-red-400 w-32 rounded-lg cursor-pointer flex justify-center items-center mb-8' title='Goto Home page'>
+        Home page
+
+        </p>
           </Link>
       <h1 className="mb-6 font-semibold text-3xl">{lession.title}</h1>
       <p>{lession.description}</p>
+      {!!videoUrl && <Video url={ videoUrl} width="100%" />}
     </div>
   )
 }

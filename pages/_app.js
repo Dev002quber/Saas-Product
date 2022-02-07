@@ -1,13 +1,17 @@
 import '../styles/globals.css';
 import UserProvider from '../context/user'
+import Layout from '../component/Layout'
 
 function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>
-      <div className='bg-gray-300'>
+      <Layout>
+        <div className=''>
 
-        <Component {...pageProps} />
-      </div>
+          <Component {...pageProps} />
+        </div>
+      </Layout>
+
     </UserProvider>
 
   )

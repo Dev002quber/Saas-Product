@@ -15,4 +15,4 @@ const logout = () => {
   )
 }
 
-export default logout
+export default logout;

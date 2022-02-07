@@ -29,6 +29,7 @@ const Provider = ({ children }) => {
         supabase.auth.signIn({
             provider: 'github',
         })
+        
     }
 
     const logout = async () => {
