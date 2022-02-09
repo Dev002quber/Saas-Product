@@ -13,7 +13,7 @@ const Pricing = ({ plans }) => {
     const showManagedSubscription = !!user && user.is_subscribed;
 
     const processSubscription = (planId) => async () => {
-        const { data } = await axios.get(`api/subscription/${planId}`)
+        const { data } = await axios.get(`api/subcription/${planId}`)
         console.log(data);
     }
 

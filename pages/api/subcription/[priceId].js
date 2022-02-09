@@ -1,4 +1,5 @@
 import { supabase } from "../../utils/supabase"
+import cookie from "cookie"
 
 const handler = async (req, res) => {
     const { user } = await supabase.auth.api.getUserByCookie(req);
@@ -7,8 +8,18 @@ const handler = async (req, res) => {
         return res.status(401).send("Unauthorized")
     }
 
-    res.send(user)
-    
+    const token = cookie.parse(req.headers.cookie)["sb:token"]
+    supabase.auth.session = () => ({
+        access_token:token
+    })
+
+    const { data: { stripe_customer } } = await supabase.from("profile").select("stripe_customer").eq("id", user.id).single();
+
+    res.send({
+        ...user,
+        stripe_customer
+    })
+
 }
 
-export default handler
+export default handler;
