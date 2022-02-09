@@ -9,7 +9,8 @@ const logout = () => {
   const {logout} = useUser()
   useEffect(logout, [])
   return (
-    <div>
+    <div className='bg-gray-500 min-h-screen '>
+      
       <h2>Logout page </h2>
     </div>
   )

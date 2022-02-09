@@ -1,13 +1,26 @@
+import axios from "axios";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../pages/utils/supabase";
 
 const Context = createContext()
 
+
+
 const Provider = ({ children }) => {
+
+    // built in router from next js for routing
     const router = useRouter()
 
+    // managing the user state
     const [user, setUser] = useState(supabase.auth.user())
+
+    // loading state to managed here is another state
+    const [isLoading, setIsLoading] = useState(true)
+    
+
+
+    // onMounting funtion this will loads 
     useEffect(() => {
         const getUserProfile = async () => {
             const sessionUser = supabase.auth.user()
@@ -16,6 +29,8 @@ const Provider = ({ children }) => {
                 const { data: profile } = await supabase.from('profile').select('*').eq('id', sessionUser.id).single()
 
                 setUser({ ...sessionUser, ...profile })
+                setIsLoading(false)
+
             }
         }
         getUserProfile()
@@ -24,6 +39,14 @@ const Provider = ({ children }) => {
             getUserProfile()
         })
     }, [])
+
+
+    useEffect(() => {
+        axios.post("/api/set-supabase-cookie", {
+            event: user ? "SIGNED_IN" : "SIGNED_OUT",
+            session: supabase.auth.session(),
+        })
+    },[user])
 
     const login = async () => {
         supabase.auth.signIn({
@@ -42,7 +65,8 @@ const Provider = ({ children }) => {
     const exposed = {
         user,
         login,
-        logout
+        logout,
+        isLoading
     }
     return (
         <Context.Provider value={exposed}>

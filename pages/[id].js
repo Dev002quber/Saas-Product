@@ -29,6 +29,9 @@ const Pages = ({ lession }) => {
           </Link>
       <h1 className="mb-6 font-semibold text-3xl">{lession.title}</h1>
       <p>{lession.description}</p>
+      <iframe id="player" type="text/html" width="640" height="390"
+  src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+  frameborder="0"></iframe>
       {!!videoUrl && <Video url={ videoUrl} width="100%" />}
     </div>
   )
